@@ -55,48 +55,71 @@ const Form = ({ onLogicCompleted }) => {
     
     setTimeout(() => {
       let totalAmountPerDay = {};
-
+  
       for (let day of selectedDays) {
         const selectedShiftTarifas = tarifas[selectedShift];
-
+  
         if (!selectedShiftTarifas || !selectedShiftTarifas[day]) {
           console.log(`No tarifas defined for ${day} or selected shift.`);
           continue;
         }
-
+  
         const totalHours = parseFloat(hours) || 0;
         let totalAmountDay = 0;
-
+  
         console.log(`Calculating total for ${day}...`);
-
+  
         for (let i = 0; i < totalHours; i++) {
           let currentTarifa;
-
-          if (i + 1 <= 8) {
-            currentTarifa = selectedShiftTarifas[day][0]; // Use the first tarifa for the initial 8 hours
-          } else if (i + 1 <= 10) {
-            currentTarifa = selectedShiftTarifas[day][1]; // Use the second tarifa for hours 9 and 10
+  
+          // Si es Viernes, ajusta la tarifa dependiendo de la hora
+          if (day === 'Viernes') {
+            if (i < 6) {
+              currentTarifa = selectedShiftTarifas[day][0];
+            } else if (i < 10) {
+              currentTarifa = selectedShiftTarifas[day][1];
+            } else {
+              currentTarifa = selectedShiftTarifas[day][2];
+            }
           } else {
-            currentTarifa = selectedShiftTarifas[day][2]; // Use the third tarifa for hours after 10
+            // Si es Sábado, las primeras dos horas tienen la primera tarifa, las demás tienen la segunda
+            if (day === 'Sabado' && i < 2) {
+              currentTarifa = selectedShiftTarifas[day][0];
+            } else {
+              // Si hay menos de 8 horas, usa la primera tarifa
+              // Si hay menos de 10 horas, usa la segunda tarifa
+              // De lo contrario, usa la última tarifa disponible
+              if (i + 1 <= 8) {
+                currentTarifa = selectedShiftTarifas[day][0];
+              } else if (i + 1 <= 10) {
+                currentTarifa = selectedShiftTarifas[day][1];
+              } else {
+                const lastTarifaIndex = selectedShiftTarifas[day].length - 1;
+                currentTarifa = selectedShiftTarifas[day][lastTarifaIndex];
+              }
+            }
           }
-
+  
           totalAmountDay += currentTarifa;
-
+  
           console.log(`Hour ${i + 1}: ${currentTarifa}`);
         }
-
+  
         totalAmountPerDay[day] = totalAmountDay;
         console.log(`Total for ${day}: ${totalAmountDay}`);
       }
-
+  
       setTotalAmount(totalAmountPerDay);
       setShowLoader(false);
-      
-
+  
       // Llamamos a la función para indicar que la lógica ha sido completada
       onLogicCompleted();
     }, 4000);
   };
+  
+  
+  
+  
 
   useEffect(() => {
     setTotalAmount(0);

@@ -7,7 +7,7 @@ const DaySelects = ({ selectedDays, onSelectDay }) => {
     setShowDays(!showDays);
   };
 
-  const daysOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const daysOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
   const handleDayClick = (day) => {
     if (selectedDays.length < 6 || selectedDays.includes(day)) {
