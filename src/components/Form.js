@@ -81,22 +81,25 @@ const Form = ({ onLogicCompleted }) => {
             } else {
               currentTarifa = selectedShiftTarifas[day][2];
             }
-          } else {
+          } else if (day === 'Sabado') {
             // Si es Sábado, las primeras dos horas tienen la primera tarifa, las demás tienen la segunda
-            if (day === 'Sabado' && i < 2) {
+            if (i < 2) {
               currentTarifa = selectedShiftTarifas[day][0];
             } else {
-              // Si hay menos de 8 horas, usa la primera tarifa
-              // Si hay menos de 10 horas, usa la segunda tarifa
-              // De lo contrario, usa la última tarifa disponible
-              if (i + 1 <= 8) {
-                currentTarifa = selectedShiftTarifas[day][0];
-              } else if (i + 1 <= 10) {
-                currentTarifa = selectedShiftTarifas[day][1];
-              } else {
-                const lastTarifaIndex = selectedShiftTarifas[day].length - 1;
-                currentTarifa = selectedShiftTarifas[day][lastTarifaIndex];
-              }
+              currentTarifa = 45.86;
+            }
+          } else if (day === 'Domingo') {
+            // Si es Domingo, todas las horas tienen la misma tarifa
+            currentTarifa = selectedShiftTarifas[day][0];
+          } else {
+            // Para todos los demás días, usa la tarifa correspondiente a la hora
+            if (i < 8) {
+              currentTarifa = selectedShiftTarifas[day][0];
+            } else if (i < 10) {
+              currentTarifa = selectedShiftTarifas[day][1];
+            } else {
+              const lastTarifaIndex = selectedShiftTarifas[day].length - 1;
+              currentTarifa = selectedShiftTarifas[day][lastTarifaIndex];
             }
           }
   
@@ -116,6 +119,8 @@ const Form = ({ onLogicCompleted }) => {
       onLogicCompleted();
     }, 4000);
   };
+  
+  
   
   
   
