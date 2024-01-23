@@ -1,3 +1,5 @@
+// Form.js
+
 import React, { useState, useEffect } from 'react';
 import DaySelects from './DaySelects';
 import ShiftSelects from './ShiftSelects';
@@ -5,6 +7,7 @@ import TotalButton from './TotalButton';
 import Total from './Total';
 import ActionButton from './ActionButton';
 import { useAppContext } from '../AppContext';
+import History from './History';  // Importa el componente History
 
 const Form = ({ onLogicCompleted }) => {
   const [selectedDays, setSelectedDays] = useState([]);
@@ -14,6 +17,9 @@ const Form = ({ onLogicCompleted }) => {
   const [showLoader, setShowLoader] = useState(false);
   const [hasCalculatedTotal, setHasCalculatedTotal] = useState(false);
   const { resetState } = useAppContext();
+  const { addToHistory } = useAppContext();
+  const [history, setHistory] = useState([]);
+  
   
 
   const tarifas = {
@@ -62,7 +68,11 @@ const Form = ({ onLogicCompleted }) => {
       setShowLoader(false);
       setHasCalculatedTotal(false);
       resetState(); // Llamamos a la función del contexto para resetear el estado
+      setHistory([]);
     };
+
+    
+    
 
   const calculateTotal = async () => {
     setShowLoader(true);
@@ -130,6 +140,13 @@ const Form = ({ onLogicCompleted }) => {
       setTotalAmount(totalAmountPerDay);
       setShowLoader(false);
 
+      // Actualizar el historial con la información correcta
+    const resultParagraph = (
+      <p className="text-white">
+        {`Bruto: $${totalAmountPerDay[selectedDays[0]]} | TAX: $${(totalAmountPerDay[selectedDays[0]] * 0.15).toFixed(2)} | Neto: $${(totalAmountPerDay[selectedDays[0]] * 0.85).toFixed(2)}`}
+      </p>
+    );
+    addToHistory(resultParagraph);
       // Llamamos a la función para indicar que la lógica ha sido completada
       onLogicCompleted();
     }, 4000);
@@ -179,7 +196,8 @@ const Form = ({ onLogicCompleted }) => {
         <div>
           <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
         </div>
-        <ActionButton onClick={() => { calculateTotal(); handleReset(); }} />
+        <ActionButton onClick={handleReset} />
+      {history.length > 0 && <History history={history} />}  {/* Muestra el historial */}
       </div>
       )}
     </div>

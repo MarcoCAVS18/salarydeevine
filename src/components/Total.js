@@ -1,6 +1,9 @@
-import React from 'react';
+// Total.js
 
-const Total = ({ totalAmount, selectedDays, hasCalculatedTotal }) => {
+import React from 'react';
+import History from './History';
+
+const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
   const daysCount = Array.isArray(selectedDays) ? selectedDays.length : 0;
 
   if (daysCount > 0 && hasCalculatedTotal) {
@@ -23,6 +26,7 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal }) => {
       return (
         <div className="mt-4">
           <p className="text-white">{`Bruto: $${totalForSelectedDays} | TAX: $${tax} | Neto: $${netTotal}`}</p>
+          {hasCalculatedTotal && <History history={history} />}
         </div>
       );
     }

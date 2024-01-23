@@ -1,3 +1,5 @@
+// AppContext.js
+
 import React, { createContext, useContext, useState } from 'react';
 
 const AppContext = createContext();
@@ -17,9 +19,21 @@ export const AppProvider = ({ children }) => {
     setResetCounter((prevCounter) => prevCounter + 1);
   };
 
+  const [history, setHistory] = useState([]);
+
+  const addToHistory = (total) => {
+    setHistory([...history, total]);
+  };
+
   const contextValue = {
     resetCounter,
     resetState,
+    selectedDays: [],
+    selectedShift: 'day',
+    hours: '',
+    totalAmount: 0,
+    history,
+    addToHistory,
   };
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;

@@ -1,3 +1,5 @@
+// TotalButton.js
+
 import React from 'react';
 
 const TotalButton = ({ onClick, isDisabled }) => {
