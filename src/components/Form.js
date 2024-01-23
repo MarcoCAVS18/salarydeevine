@@ -3,6 +3,8 @@ import DaySelects from './DaySelects';
 import ShiftSelects from './ShiftSelects';
 import TotalButton from './TotalButton';
 import Total from './Total';
+import ActionButton from './ActionButton';
+import { useAppContext } from '../AppContext';
 
 const Form = ({ onLogicCompleted }) => {
   const [selectedDays, setSelectedDays] = useState([]);
@@ -11,6 +13,8 @@ const Form = ({ onLogicCompleted }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [showLoader, setShowLoader] = useState(false);
   const [hasCalculatedTotal, setHasCalculatedTotal] = useState(false);
+  const { resetState } = useAppContext();
+  
 
   const tarifas = {
     'Day Shift': {
@@ -49,7 +53,18 @@ const Form = ({ onLogicCompleted }) => {
     setHours(e.target.value);
   };
 
-  const calculateTotal = () => {
+    // eslint-disable-next-line no-unused-vars
+    const handleReset = () => {
+      setSelectedDays([]);
+      setSelectedShift('');
+      setHours('');
+      setTotalAmount(0);
+      setShowLoader(false);
+      setHasCalculatedTotal(false);
+      resetState(); // Llamamos a la función del contexto para resetear el estado
+    };
+
+  const calculateTotal = async () => {
     setShowLoader(true);
     setHasCalculatedTotal(true);
     
@@ -114,7 +129,7 @@ const Form = ({ onLogicCompleted }) => {
   
       setTotalAmount(totalAmountPerDay);
       setShowLoader(false);
-  
+
       // Llamamos a la función para indicar que la lógica ha sido completada
       onLogicCompleted();
     }, 4000);
@@ -132,6 +147,7 @@ const Form = ({ onLogicCompleted }) => {
   }, [selectedDays, hours]);
 
   const isButtonDisabled = !hours || selectedDays.length === 0;
+
 
   return (
     <div className="container mx-auto flex flex-col justify-center items-center">
@@ -159,7 +175,12 @@ const Form = ({ onLogicCompleted }) => {
       )}
 
       {Object.keys(totalAmount).length > 0 && (
-        <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
+        <div className="mt-4 flex items-center ">
+        <div>
+          <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
+        </div>
+        <ActionButton onClick={() => { calculateTotal(); handleReset(); }} />
+      </div>
       )}
     </div>
   );

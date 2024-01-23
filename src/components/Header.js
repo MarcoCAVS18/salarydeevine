@@ -8,7 +8,7 @@ const Header = () => {
         <img src={logo} alt="Logo de la aplicación" className="h-32" />
       </div>
 
-      <h1 className="text-2xl font-bold">Calculadora de Jornada Laboral</h1>
+      <h1 className="text-2xl font-bold">Calcula tu Salario!</h1>
     </header>
   );
 };
