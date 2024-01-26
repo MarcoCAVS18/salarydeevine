@@ -1,4 +1,3 @@
-// History.js
 import React from 'react';
 
 const History = ({ history }) => {
@@ -19,3 +18,4 @@ const History = ({ history }) => {
 };
 
 export default History;
+

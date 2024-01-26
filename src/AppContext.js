@@ -17,12 +17,13 @@ export const AppProvider = ({ children }) => {
 
   const resetState = () => {
     setResetCounter((prevCounter) => prevCounter + 1);
+    // setHistory([]);
   };
 
   const [history, setHistory] = useState([]);
 
   const addToHistory = (total) => {
-    setHistory([...history, total]);
+    setHistory((currentHistory) => [...currentHistory, total]);
   };
 
   const contextValue = {
@@ -32,7 +33,7 @@ export const AppProvider = ({ children }) => {
     selectedShift: 'day',
     hours: '',
     totalAmount: 0,
-    history,
+    history: history || [],  // Asegura que history sea un array definido
     addToHistory,
   };
 

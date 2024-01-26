@@ -1,3 +1,5 @@
+// Header.js
+
 import React from 'react';
 import logo from '../Mesa de trabajo 1.png';
 

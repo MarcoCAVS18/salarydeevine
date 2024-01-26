@@ -6,7 +6,6 @@ import Form from './components/Form';
 import Total from './components/Total';
 import { AppProvider } from './AppContext';
 
-
 const App = () => {
   const [isLogicCompleted, setIsLogicCompleted] = useState(false);
 
@@ -26,5 +25,3 @@ const App = () => {
 };
 
 export default App;
-
-

@@ -7,20 +7,17 @@ import TotalButton from './TotalButton';
 import Total from './Total';
 import ActionButton from './ActionButton';
 import { useAppContext } from '../AppContext';
-import History from './History';  // Importa el componente History
+import History from './History';
 
 const Form = ({ onLogicCompleted }) => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [selectedShift, setSelectedShift] = useState('');
   const [hours, setHours] = useState('');
-  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState({});
   const [showLoader, setShowLoader] = useState(false);
   const [hasCalculatedTotal, setHasCalculatedTotal] = useState(false);
-  const { resetState } = useAppContext();
-  const { addToHistory } = useAppContext();
-  const [history, setHistory] = useState([]);
-  
-  
+  const { resetState, history: contextHistory } = useAppContext();
+  const [history, setHistory] = useState(contextHistory || []);
 
   const tarifas = {
     'Day Shift': {
@@ -59,27 +56,23 @@ const Form = ({ onLogicCompleted }) => {
     setHours(e.target.value);
   };
 
-    // eslint-disable-next-line no-unused-vars
-    const handleReset = () => {
-      setSelectedDays([]);
-      setSelectedShift('');
-      setHours('');
-      setTotalAmount(0);
-      setShowLoader(false);
-      setHasCalculatedTotal(false);
-      resetState(); // Llamamos a la función del contexto para resetear el estado
-      setHistory([]);
-    };
-
-    
-    
+  const handleReset = () => {
+    setSelectedDays([]);
+    setSelectedShift('');
+    setHours('');
+    setTotalAmount({});
+    setShowLoader(false);
+    setHasCalculatedTotal(false);
+    resetState();
+  };
 
   const calculateTotal = async () => {
     setShowLoader(true);
     setHasCalculatedTotal(true);
-    
+  
     setTimeout(() => {
-      let totalAmountPerDay = {};
+      let totalAmountPerDay = { ...totalAmount };
+      let grandTotal = 0;
   
       for (let day of selectedDays) {
         const selectedShiftTarifas = tarifas[selectedShift];
@@ -90,13 +83,13 @@ const Form = ({ onLogicCompleted }) => {
         }
   
         const totalHours = parseFloat(hours) || 0;
-        let totalAmountDay = 0;
+        let totalAmountDay = totalAmountPerDay[day] || 0;
   
         console.log(`Calculating total for ${day}...`);
   
         for (let i = 0; i < totalHours; i++) {
           let currentTarifa;
-  
+
           // Si es Viernes, ajusta la tarifa dependiendo de la hora
           if (day === 'Viernes') {
             if (i < 6) {
@@ -127,36 +120,45 @@ const Form = ({ onLogicCompleted }) => {
               currentTarifa = selectedShiftTarifas[day][lastTarifaIndex];
             }
           }
-  
-          totalAmountDay += currentTarifa;
-  
-          console.log(`Hour ${i + 1}: ${currentTarifa}`);
-        }
-  
-        totalAmountPerDay[day] = totalAmountDay;
-        console.log(`Total for ${day}: ${totalAmountDay}`);
-      }
-  
-      setTotalAmount(totalAmountPerDay);
-      setShowLoader(false);
 
-      // Actualizar el historial con la información correcta
-    const resultParagraph = (
-      <p className="text-white">
-        {`Bruto: $${totalAmountPerDay[selectedDays[0]]} | TAX: $${(totalAmountPerDay[selectedDays[0]] * 0.15).toFixed(2)} | Neto: $${(totalAmountPerDay[selectedDays[0]] * 0.85).toFixed(2)}`}
+          totalAmountDay += currentTarifa;
+
+        console.log(`Hour ${i + 1}: ${currentTarifa}`);
+      }
+
+      console.log(`Total for ${day}: ${totalAmountDay}`);
+
+      totalAmountPerDay[day] = totalAmountDay;
+      grandTotal += totalAmountDay;
+    }
+
+    setTotalAmount(totalAmountPerDay);
+    setShowLoader(false);
+
+    const resultParagraphs = selectedDays.map(day => (
+      <p key={day} className="text-white">
+        {`Bruto: $${totalAmountPerDay[day].toFixed(2)} | TAX: $${(
+          totalAmountPerDay[day] * 0.15
+        ).toFixed(2)} | Neto: $${(totalAmountPerDay[day] * 0.85).toFixed(2)}`}
+      </p>
+    ));
+
+    // Añade el total acumulado al historial
+    resultParagraphs.push(
+      <p key="total" className="text-white">
+        {`Total acumulado: $${grandTotal.toFixed(2)} | TAX: $${(grandTotal * 0.15).toFixed(2)} | Neto: $${(
+          grandTotal * 0.85
+        ).toFixed(2)}`}
       </p>
     );
-    addToHistory(resultParagraph);
-      // Llamamos a la función para indicar que la lógica ha sido completada
-      onLogicCompleted();
-    }, 4000);
-  };
-  
-  
-  
-  
-  
-  
+
+    setHistory((currentHistory) => [...currentHistory, ...resultParagraphs]);
+
+    console.log(resultParagraphs);
+
+    onLogicCompleted();
+  }, 4000);
+};
 
   useEffect(() => {
     setTotalAmount(0);
@@ -164,7 +166,6 @@ const Form = ({ onLogicCompleted }) => {
   }, [selectedDays, hours]);
 
   const isButtonDisabled = !hours || selectedDays.length === 0;
-
 
   return (
     <div className="container mx-auto flex flex-col justify-center items-center">
@@ -191,15 +192,22 @@ const Form = ({ onLogicCompleted }) => {
         </div>
       )}
 
-      {Object.keys(totalAmount).length > 0 && (
-        <div className="mt-4 flex items-center ">
-        <div>
-          <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
-        </div>
-        <ActionButton onClick={handleReset} />
-      {history.length > 0 && <History history={history} />}  {/* Muestra el historial */}
+{Object.keys(totalAmount).length > 0 && (
+  <div className="mt-4 flex flex-col items-center justify-between w-full">
+    <div className="flex items-center justify-between"> {/* Envuelve Total y ActionButton en un contenedor flex */}
+      <div>
+        <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
       </div>
-      )}
+      <div>
+        <ActionButton onClick={handleReset} />
+      </div>
+    </div>
+    <div className="flex items-center justify-between w-full ml-4">
+      {history.length > 0 && <History history={history} />}
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

@@ -16,8 +16,6 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
         <div className="mt-4">
           <p className="text-white" dangerouslySetInnerHTML={{ __html: `Bruto: $${dayTotal} | TAX: $${tax} | <strong>Neto: $${netTotal}</strong>` }} />
         </div>
-
-
       );
     } else {
       const totalForSelectedDays = selectedDays.reduce((acc, day) => acc + (totalAmount[day] || 0), 0).toFixed(2);
@@ -26,7 +24,7 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
       return (
         <div className="mt-4">
           <p className="text-white">{`Bruto: $${totalForSelectedDays} | TAX: $${tax} | Neto: $${netTotal}`}</p>
-          {hasCalculatedTotal && <History history={history} />}
+          {history && history.length > 0 && <History history={history} />}
         </div>
       );
     }
@@ -38,3 +36,4 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
 };
 
 export default Total;
+

@@ -23,4 +23,3 @@ const ShiftSelects = ({ selectedShift, onSelectShift }) => {
 };
 
 export default ShiftSelects;
-
