@@ -15,7 +15,7 @@ const LanguageSwitcher = ({ className }) => {
         id="language"
         onChange={(e) => changeLanguage(e.target.value)}
         value={i18n.language}
-        className="bg-transparent text-white border-none outline-none cursor-pointer"
+        className="bg-transparent text-white border-white outline-none cursor-pointer"
       >
         <option value="es">SPN</option>
         <option value="en">EN</option>

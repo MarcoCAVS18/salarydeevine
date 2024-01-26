@@ -1,5 +1,3 @@
-// Total.js
-
 import React from 'react';
 import History from './History';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +24,7 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
       return (
         <div className="mt-4">
           <p className="text-white">{t('totalForMultipleDays', { totalForSelectedDays, tax, netTotal })}</p>
+          <hr className="my-2 border-gray-400" />
           {history && history.length > 0 && <History history={history} />}
         </div>
       );
@@ -38,4 +37,3 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
 };
 
 export default Total;
-

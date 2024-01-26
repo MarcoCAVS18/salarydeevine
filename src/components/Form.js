@@ -22,22 +22,22 @@ const Form = ({ onLogicCompleted }) => {
 
   const tarifas = {
     'Day Shift': {
-      Lunes: [28.66, 34.40, 45.86],
-      Martes: [28.66, 34.40, 45.86],
-      Miercoles: [28.66, 34.40, 45.86],
-      Jueves: [28.66, 34.40, 45.86],
-      Viernes: [28.66, 34.40, 45.86],
-      Sabado: [32.10, 45.86],
-      Domingo: [51.89],
+      Monday: [28.66, 34.40, 45.86],
+      Tuesday: [28.66, 34.40, 45.86],
+      Wednesday: [28.66, 34.40, 45.86],
+      Thursday: [28.66, 34.40, 45.86],
+      Friday: [28.66, 34.40, 45.86],
+      Saturday: [32.10, 45.86],
+      Sunday: [51.89],
     },
     'Afternoon Shift': {
-      Lunes: [32.10, 34.40, 45.86],
-      Martes: [32.10, 34.40, 45.86],
-      Miercoles: [32.10, 34.40, 45.86],
-      Jueves: [32.10, 34.40, 45.86],
-      Viernes: [32.10, 34.40, 45.86],
-      Sabado: [32.10, 45.86],
-      Domingo: [51.89],
+      Monday: [32.10, 34.40, 45.86],
+      Tuesday: [32.10, 34.40, 45.86],
+      Wednesday: [32.10, 34.40, 45.86],
+      Thursday: [32.10, 34.40, 45.86],
+      Friday: [32.10, 34.40, 45.86],
+      Saturday: [32.10, 45.86],
+      Sunday: [51.89],
     },
   };
 
@@ -68,6 +68,8 @@ const Form = ({ onLogicCompleted }) => {
   };
 
   const calculateTotal = async () => {
+    const resultParagraphs = [];
+
     setShowLoader(true);
     setHasCalculatedTotal(true);
   
@@ -90,7 +92,7 @@ const Form = ({ onLogicCompleted }) => {
   
         for (let i = 0; i < totalHours; i++) {
           let currentTarifa;
-
+  
           // Si es Viernes, ajusta la tarifa dependiendo de la hora
           if (day === 'Viernes') {
             if (i < 6) {
@@ -121,7 +123,7 @@ const Form = ({ onLogicCompleted }) => {
               currentTarifa = selectedShiftTarifas[day][lastTarifaIndex];
             }
           }
-
+  
           totalAmountDay += currentTarifa;
 
         console.log(`Hour ${i + 1}: ${currentTarifa}`);
@@ -131,35 +133,40 @@ const Form = ({ onLogicCompleted }) => {
 
       totalAmountPerDay[day] = totalAmountDay;
       grandTotal += totalAmountDay;
+
+      // Asegúrate de que totalAmountPerDay[day] esté definido antes de usarlo
+      if (totalAmountPerDay[day] !== undefined) {
+        const resultParagraph = (
+          <p key={day} className="text-white">
+            {`Bruto: $${totalAmountPerDay[day].toFixed(2)} | TAX: $${(
+              totalAmountPerDay[day] * 0.15
+            ).toFixed(2)} | Neto: $${(totalAmountPerDay[day] * 0.85).toFixed(2)}`}
+          </p>
+        );
+        resultParagraphs.push(resultParagraph);
+      }
+    }
+
+    // Cuando calculas el total acumulado
+    if (totalAmountPerDay[selectedDays[0]] !== undefined) {
+      resultParagraphs.push(
+        <p key="total" className="text-white">
+          {`Total acumulado: $${grandTotal.toFixed(2)} | TAX: $${(grandTotal * 0.15).toFixed(2)} | Neto: $${(
+            grandTotal * 0.85
+          ).toFixed(2)}`}
+        </p>
+      );
     }
 
     setTotalAmount(totalAmountPerDay);
     setShowLoader(false);
-
-    const resultParagraphs = selectedDays.map(day => (
-      <p key={day} className="text-white">
-        {`Bruto: $${totalAmountPerDay[day].toFixed(2)} | TAX: $${(
-          totalAmountPerDay[day] * 0.15
-        ).toFixed(2)} | Neto: $${(totalAmountPerDay[day] * 0.85).toFixed(2)}`}
-      </p>
-    ));
-
-    // Añade el total acumulado al historial
-    resultParagraphs.push(
-      <p key="total" className="text-white">
-        {`Total acumulado: $${grandTotal.toFixed(2)} | TAX: $${(grandTotal * 0.15).toFixed(2)} | Neto: $${(
-          grandTotal * 0.85
-        ).toFixed(2)}`}
-      </p>
-    );
-
     setHistory((currentHistory) => [...currentHistory, ...resultParagraphs]);
-
     console.log(resultParagraphs);
 
     onLogicCompleted();
   }, 4000);
 };
+  
 
   useEffect(() => {
     setTotalAmount(0);

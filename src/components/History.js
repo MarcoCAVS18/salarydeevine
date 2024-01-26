@@ -1,6 +1,6 @@
+// History.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
 
 const History = ({ history }) => {
   const { t } = useTranslation(); // Función de traducción
@@ -22,3 +22,4 @@ const History = ({ history }) => {
 };
 
 export default History;
+
