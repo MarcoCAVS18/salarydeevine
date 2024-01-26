@@ -1,0 +1,22 @@
+{
+    "calculateTotal": "Calculer le total",
+    "appTitle": "Calculez votre Salaire!",
+    "selectDays": "Sélectionnez vos Jours",  
+    "hoursInputLabel": "Heures de travail",
+    "hoursInputPlaceholder": "Entrez les heures par jour",
+    "totalForOneDay": "Brut : ${{dayTotal}} | TAXE : ${{tax}} | <strong>Net : ${{netTotal}}</strong>",
+    "totalForMultipleDays": "Brut : ${{totalForSelectedDays}} | TAXE : ${{tax}} | Net : ${{netTotal}}",
+    "noDaysSelected": "Aucun jour sélectionné",
+    "calculationHistory": "Historique des calculs",
+    "noHistory": "Aucun élément dans l'historique",
+    "days": {
+      "Monday": "Lundi",
+      "Tuesday": "Mardi",
+      "Wednesday": "Mercredi",
+      "Thursday": "Jeudi",
+      "Friday": "Vendredi",
+      "Saturday": "Samedi",
+      "Sunday": "Dimanche"
+  }
+}
+  

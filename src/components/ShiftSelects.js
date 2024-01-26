@@ -1,10 +1,12 @@
+// ShiftSelects.js
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ShiftSelects = ({ selectedShift, onSelectShift }) => {
   const shifts = ['Day Shift', 'Afternoon Shift'];
+  const { t } = useTranslation(); // Función de traducción
 
   const handleShiftClick = (shift) => {
-    // Asegurémonos de que selectedShift sea un string vacío en lugar de undefined
     onSelectShift(selectedShift === shift ? '' : shift);
   };
 
@@ -15,7 +17,7 @@ const ShiftSelects = ({ selectedShift, onSelectShift }) => {
           <div
             className={`w-4 h-4 border border-white rounded-full mr-2 ${selectedShift === shift ? 'bg-blue-500' : 'bg-transparent'}`}
           ></div>
-          <label className={`text-white ${selectedShift === shift ? 'font-bold' : ''}`}>{shift}</label>
+          <label className={`text-white ${selectedShift === shift ? 'font-bold' : ''}`}>{t(shift)}</label>
         </div>
       ))}
     </div>

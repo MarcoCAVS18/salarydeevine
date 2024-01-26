@@ -1,5 +1,4 @@
 // Form.js
-
 import React, { useState, useEffect } from 'react';
 import DaySelects from './DaySelects';
 import ShiftSelects from './ShiftSelects';
@@ -8,6 +7,7 @@ import Total from './Total';
 import ActionButton from './ActionButton';
 import { useAppContext } from '../AppContext';
 import History from './History';
+import { useTranslation } from 'react-i18next';
 
 const Form = ({ onLogicCompleted }) => {
   const [selectedDays, setSelectedDays] = useState([]);
@@ -18,6 +18,7 @@ const Form = ({ onLogicCompleted }) => {
   const [hasCalculatedTotal, setHasCalculatedTotal] = useState(false);
   const { resetState, history: contextHistory } = useAppContext();
   const [history, setHistory] = useState(contextHistory || []);
+  const { t } = useTranslation(); // Función de traducción
 
   const tarifas = {
     'Day Shift': {
@@ -172,18 +173,19 @@ const Form = ({ onLogicCompleted }) => {
       <DaySelects selectedDays={selectedDays} onSelectDay={handleSelectDay} />
 
       <form className="flex flex-col items-center mt-4">
-        <label className="sr-only">Horas a trabajar:</label>
+        <label className="sr-only">{t('hoursInputLabel')}</label>
         <input
           type="number"
           value={hours}
           onChange={handleHoursChange}
-          placeholder="Ingrese la cantidad de horas"
+          placeholder={t('hoursInputPlaceholder')}
           className="p-2 border border-white rounded text-white bg-transparent text-center"
         />
 
         <ShiftSelects selectedShift={selectedShift} onSelectShift={handleSelectShift} />
 
         <TotalButton onClick={calculateTotal} isDisabled={isButtonDisabled} />
+
       </form>
 
       {showLoader && (

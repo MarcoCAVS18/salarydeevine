@@ -1,15 +1,16 @@
-// Dayselects.js
-
+// DaySelects.js
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DaySelects = ({ selectedDays, onSelectDay }) => {
   const [showDays, setShowDays] = useState(false);
+  const { t } = useTranslation(); // Función de traducción
 
   const toggleShowDays = () => {
     setShowDays(!showDays);
   };
 
-  const daysOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleDayClick = (day) => {
     if (selectedDays.length < 6 || selectedDays.includes(day)) {
@@ -20,7 +21,7 @@ const DaySelects = ({ selectedDays, onSelectDay }) => {
   return (
     <div className="mt-4 flex items-center justify-center flex-col">
       <div className="cursor-pointer flex items-center" onClick={toggleShowDays}>
-        <p className="font-bold text-white">Seleccionar días</p>
+        <p className="font-bold text-white">{t('selectDays')}</p>
         <span className="ml-1">{showDays ? '▼' : '►'}</span>
       </div>
       {showDays && (
@@ -35,7 +36,7 @@ const DaySelects = ({ selectedDays, onSelectDay }) => {
                 className={`mr-1 ${selectedDays.length === 6 && !selectedDays.includes(day) ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                 disabled={selectedDays.length === 6 && !selectedDays.includes(day)}
               />
-              <span className="text-white">{day}</span>
+              <span className="text-white">{t(day)}</span> {/* Aquí está el cambio */}
             </div>
           ))}
         </form>

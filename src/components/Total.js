@@ -2,9 +2,11 @@
 
 import React from 'react';
 import History from './History';
+import { useTranslation } from 'react-i18next';
 
 const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
   const daysCount = Array.isArray(selectedDays) ? selectedDays.length : 0;
+  const { t } = useTranslation(); // Función de traducción
 
   if (daysCount > 0 && hasCalculatedTotal) {
     if (daysCount === 1) {
@@ -14,7 +16,7 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
       const netTotal = (dayTotal - tax).toFixed(2);
       return (
         <div className="mt-4">
-          <p className="text-white" dangerouslySetInnerHTML={{ __html: `Bruto: $${dayTotal} | TAX: $${tax} | <strong>Neto: $${netTotal}</strong>` }} />
+          <p className="text-white" dangerouslySetInnerHTML={{ __html: t('totalForOneDay', { dayTotal, tax, netTotal }) }} />
         </div>
       );
     } else {
@@ -23,13 +25,13 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
       const netTotal = (totalForSelectedDays - tax).toFixed(2);
       return (
         <div className="mt-4">
-          <p className="text-white">{`Bruto: $${totalForSelectedDays} | TAX: $${tax} | Neto: $${netTotal}`}</p>
+          <p className="text-white">{t('totalForMultipleDays', { totalForSelectedDays, tax, netTotal })}</p>
           {history && history.length > 0 && <History history={history} />}
         </div>
       );
     }
   } else if (hasCalculatedTotal) {
-    return <div className="mt-4"><p className="text-white">No se han seleccionado días</p></div>;
+    return <div className="mt-4"><p className="text-white">{t('noDaysSelected')}</p></div>;
   } else {
     return null;
   }

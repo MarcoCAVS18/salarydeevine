@@ -1,8 +1,11 @@
 // TotalButton.js
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const TotalButton = ({ onClick, isDisabled }) => {
+  const { t } = useTranslation(); // Función de traducción
+
   return (
     <button
       type="button"
@@ -10,7 +13,7 @@ const TotalButton = ({ onClick, isDisabled }) => {
       onClick={onClick}
       disabled={isDisabled}
     >
-      Calcular Total
+      {t('calculateTotal')}
     </button>
   );
 };
