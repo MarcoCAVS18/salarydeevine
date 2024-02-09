@@ -203,13 +203,9 @@ const Form = ({ onLogicCompleted }) => {
 
 {Object.keys(totalAmount).length > 0 && (
   <div className="mt-4 flex flex-col items-center justify-between w-full">
-    <div className="flex items-center justify-between"> {/* Envuelve Total y ActionButton en un contenedor flex */}
-      <div>
-        <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
-      </div>
-      <div>
-        <ActionButton onClick={handleReset} />
-      </div>
+    <div className="flex flex-col items-center justify-between"> {/* Envuelve Total y ActionButton en un contenedor flex */}
+      <Total totalAmount={totalAmount} selectedDays={selectedDays} hasCalculatedTotal={hasCalculatedTotal} />
+      <ActionButton onClick={handleReset} />
     </div>
     <div className="flex items-center justify-between w-full ml-4">
       {history.length > 0 && <History history={history} />}
