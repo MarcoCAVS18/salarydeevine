@@ -1,18 +1,19 @@
-// LanguageSwitcher.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import axios from 'axios';
 
 const LanguageSwitcher = ({ className }) => {
   const { i18n } = useTranslation();
-  const languageFlags = {
+  
+  // Envolver la inicialización de languageFlags en useMemo
+  const languageFlags = useMemo(() => ({
     es: 'https://flagcdn.com/es.svg',
     en: 'https://flagcdn.com/gb.svg',
     fr: 'https://flagcdn.com/fr.svg',
     it: 'https://flagcdn.com/it.svg',
     ind: 'https://flagcdn.com/id.svg'
-  };
+  }), []);
 
   useEffect(() => {
     const fetchFlags = async () => {
@@ -28,7 +29,7 @@ const LanguageSwitcher = ({ className }) => {
       }
     };
     fetchFlags();
-  }, []);
+  }, [languageFlags]); // Ahora languageFlags es una dependencia válida del useEffect
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language.value);
