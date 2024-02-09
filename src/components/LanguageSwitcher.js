@@ -56,11 +56,12 @@ const LanguageSwitcher = ({ className }) => {
           control: provided => ({
             ...provided,
             backgroundColor: 'transparent', // Fondo transparente
-            width: '110px', // Ancho ajustado
+            width: '100px', // Ancho ajustado
+            border: 'none',
           }),
           menu: provided => ({
             ...provided,
-            width: '110px', // Ancho ajustado
+            width: '100px', // Ancho ajustado
             backgroundColor: 'transparent', // Fondo transparente
           }),
           option: provided => ({
