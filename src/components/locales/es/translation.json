@@ -1,7 +1,7 @@
 {
     "calculateTotal": "Calcular Total",
     "appTitle": "Calcula tu Salario!",
-    "selectDays": "Selecciona tus dias",
+    "selectDays": "Selecciona tus días",
     "hoursInputLabel": "Horas de trabajo",
     "hoursInputPlaceholder": "Ingrese horas x dias",
     "totalForOneDay": "Bruto: ${{dayTotal}} | TAX: ${{tax}} | <strong>Neto: ${{netTotal}}</strong>",
