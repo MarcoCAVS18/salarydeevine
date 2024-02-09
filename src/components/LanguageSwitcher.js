@@ -29,8 +29,8 @@ const LanguageSwitcher = ({ className }) => {
       }
     };
     fetchFlags();
-  }, [languageFlags]); // Ahora languageFlags es una dependencia válida del useEffect
-
+  }, [languageFlags]); // Agrega languageFlags como dependencia del useEffect
+  
   const changeLanguage = (language) => {
     i18n.changeLanguage(language.value);
   };
