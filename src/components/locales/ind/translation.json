@@ -1,0 +1,19 @@
+{
+    "calculateTotal": "Hitung Total",
+    "appTitle": "Hitung Gajimu!",
+    "selectDays": "Pilih hari-harimu",
+    "hoursInputLabel": "Jam kerja",
+    "hoursInputPlaceholder": "Masukkan jam x hari",
+    "totalForOneDay": "Penghasilan Bruto: Rp{{dayTotal}} | PAJAK: Rp{{tax}} | <strong>Penghasilan Neto: Rp{{netTotal}}</strong>",
+    "totalForMultipleDays": "Penghasilan Bruto: Rp{{totalForSelectedDays}} | PAJAK: Rp{{tax}} | Penghasilan Neto: Rp{{netTotal}}",
+    "noDaysSelected": "Tidak ada hari yang dipilih",
+    "calculationHistory": "Riwayat Perhitungan",
+    "noHistory": "Tidak ada item dalam riwayat",
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}

@@ -22,22 +22,22 @@ const Form = ({ onLogicCompleted }) => {
 
   const tarifas = {
     'Day Shift': {
-      Monday: [28.66, 34.40, 45.86],
-      Tuesday: [28.66, 34.40, 45.86],
-      Wednesday: [28.66, 34.40, 45.86],
-      Thursday: [28.66, 34.40, 45.86],
-      Friday: [28.66, 34.40, 45.86],
+      Monday: [28.66, 34.3950, 45.86],
+      Tuesday: [28.66, 34.3950, 45.86],
+      Wednesday: [28.66, 34.3950, 45.86],
+      Thursday: [28.66, 34.3950, 45.86],
+      Friday: [28.66, 34.3950, 45.86],
       Saturday: [32.10, 45.86],
-      Sunday: [51.89],
+      Sunday: [51.5925],
     },
     'Afternoon Shift': {
-      Monday: [32.10, 34.40, 45.86],
-      Tuesday: [32.10, 34.40, 45.86],
-      Wednesday: [32.10, 34.40, 45.86],
-      Thursday: [32.10, 34.40, 45.86],
-      Friday: [32.10, 34.40, 45.86],
+      Monday: [32.10, 34.3950, 45.86],
+      Tuesday: [32.10, 34.3950, 45.86],
+      Wednesday: [32.10, 34.3950, 45.86],
+      Thursday: [32.10, 34.3950, 45.86],
+      Friday: [32.10, 34.3950, 45.86],
       Saturday: [32.10, 45.86],
-      Sunday: [51.89],
+      Sunday: [51.5925],
     },
   };
 
@@ -69,7 +69,7 @@ const Form = ({ onLogicCompleted }) => {
 
   const calculateTotal = async () => {
     const resultParagraphs = [];
-
+  
     setShowLoader(true);
     setHasCalculatedTotal(true);
   
@@ -85,7 +85,7 @@ const Form = ({ onLogicCompleted }) => {
           continue;
         }
   
-        const totalHours = parseFloat(hours) || 0;
+        const totalHours = parseFloat(hours) || 0; // Definir 0 si hours es NaN o undefined
         let totalAmountDay = totalAmountPerDay[day] || 0;
   
         console.log(`Calculating total for ${day}...`);
@@ -109,7 +109,7 @@ const Form = ({ onLogicCompleted }) => {
             } else {
               currentTarifa = 45.86;
             }
-          } else if (day === 'Domingo') {
+          } else if (day === 'Sunday') {
             // Si es Domingo, todas las horas tienen la misma tarifa
             currentTarifa = selectedShiftTarifas[day][0];
           } else {
