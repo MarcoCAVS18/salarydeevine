@@ -10,7 +10,7 @@ const Total = ({ totalAmount, selectedDays, hasCalculatedTotal, history }) => {
     if (daysCount === 1) {
       const day = selectedDays[0];
       const dayTotal = totalAmount && totalAmount[day] !== undefined ? totalAmount[day].toFixed(2) : 0;
-      const tax = (dayTotal * 0.15).toFixed(2);
+      const tax = (dayTotal * 0.15000994447946549).toFixed(2);
       const netTotal = (dayTotal - tax).toFixed(2);
       return (
         <div className="mt-4">
